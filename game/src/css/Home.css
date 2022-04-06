@@ -35,5 +35,12 @@ body{
 }
 .button{
     margin: 50px 0px 150px 0px;
+   
 }
+
+.routerButton{
+    background-color: transparent;
+
+}
+
 
