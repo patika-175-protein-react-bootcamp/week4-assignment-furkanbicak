@@ -14,8 +14,14 @@ function Game() {
 
   const [currentProblem, setCurrentProblem] = useState({});
 
-  const [questionList, setQuestionList] = useState([
+  const [data, setData] = useState([{
+    totalPoint:'',
+    totalQuestions:'',
+    correctAnswers:''
+  }])
 
+  const [questionList, setQuestionList] = useState([
+    
     {
       firstNumber:'', 
       secondNumber:'', 
@@ -31,7 +37,7 @@ function Game() {
   let choie1;
   let choie2;
   let choieTrue;
-  let correctAnswer;
+  
 
   let navigate = useNavigate();
   const routeChange = () =>{ 
@@ -83,11 +89,20 @@ function Game() {
     setOptions(shuffle(key))
 
   }
-
-  console.log("List2", questionList)
    
   function hübele (index, item){ 
-    console.log("İNDEX", answer+1);
+
+    // LocalStorage da toplam çözülen soru sayısı kaydedildi.
+    var totalQuestions = localStorage.getItem('totalQuestions');
+    if (totalQuestions === null) {
+      totalQuestions = 1;
+    } else {
+      totalQuestions++;
+    }
+    console.log(totalQuestions);
+    localStorage.setItem("totalQuestions", totalQuestions);
+
+
     if(answer === 9){
       routeChange();
     }
@@ -95,10 +110,22 @@ function Game() {
 
     if(item === questionList[answer+1].options){
 
+      // LocalStorage da toplam çözülen doğru soru sayısı kaydedildi.
+      var correctAnswers = localStorage.getItem('correctAnswers');
+      if (correctAnswers === null) {
+        correctAnswers = 1;
+      } else {
+        correctAnswers++;
+      }
+      console.log(correctAnswers);
+      localStorage.setItem("correctAnswers", correctAnswers);
+
       setTrueAnswer((prev) => prev + 1);
-      correctAnswer =+ correctAnswer;                                 //Toplam dogru soru sayısını tuttuk.
-      let newScore = Math.round(Math.sqrt(questionList.options));
+     
+      let newScore = Math.round(Math.sqrt(questionList[answer+1].options));         //Dogru sorudan alınan puanı hesaplama.
       setScore( score + newScore);
+
+
       document.body.style = 'background-color: green;'
       gameStart();
     }else{
