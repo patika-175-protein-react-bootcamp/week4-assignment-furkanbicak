@@ -9,8 +9,7 @@ function Home() {
 
   let navigate = useNavigate();
   const routeChange = () =>{ 
-    let path = `game`; 
-    navigate(path);
+    navigate(`game`);
   };
 
   return (

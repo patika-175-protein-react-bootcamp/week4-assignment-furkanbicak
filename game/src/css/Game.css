@@ -7,7 +7,11 @@ body{
     background-color: #2D2D2D; 
     overflow: hidden;
 }
-
+.title{
+    color: #FFFF;
+    font-family: 'Handlee', cursive;
+    font-size: 64px;
+}
 .navbar{
     display: flex;
     flex-direction: row;
@@ -20,34 +24,28 @@ body{
     font-size: 48px;
     color: #FFFF;
 }
-
 .navbar_title div{
     margin-right: 50px;
     margin-top: 50px;
 }
-
 .container{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    margin-left: 50px;
-    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
-
+.container-board{
+    display: flex;
+    flex-direction: row;
+    width: 48%;
+    margin-left: 50px;
+}
 .container-selection{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-left: 100px;
-}
-.container-selection-text{
-    font-family: 'Handlee', cursive;
-    font-size: 90px;
-    color: #FFFF;
-    position: absolute;
-    margin-left: 60px;
-    margin-top: 40px;
+    justify-content: space-around;
+    margin-top: 300px;
+    margin-right: 150px;
 }
 .container-selection_1{
     margin-bottom: 350px;
@@ -58,3 +56,29 @@ body{
 .container-selection_3{
     margin-bottom: 250px;
 }
+.container-board-question{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 420px;
+    left: 187px;
+    position: absolute;
+} 
+.routerButton{
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+.background-red {
+    background-color: red;
+  }
+  
+  .background-green {
+    background-color: greenyellow;
+  }
