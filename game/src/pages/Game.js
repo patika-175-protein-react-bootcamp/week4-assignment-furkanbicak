@@ -6,21 +6,15 @@ import '../css/Game.css';
 
 function Game() {
   const [options, setOptions] = useState([]);
-  const [board, setboard] = useState([]);
-  const [score, setScore] = useState(0);
+  const [board, setboard] = useState([]);                       // !Tahdaki rakamları randomNumber() dan alıp basar.
+  const [score, setScore] = useState(0);                
 
-  const [truAnswer, setTrueAnswer] = useState(0);       //Dogru soru sayısını tutar.
-  const [answer, setAnswer] = useState(0);              //Kacıncı sorudasın?
+  const [truAnswer, setTrueAnswer] = useState(0);               // !Dogru soru sayısını tutar.
+  const [answer, setAnswer] = useState(0);                      // !Kacıncı sorudasın?
 
   const [currentProblem, setCurrentProblem] = useState({});
 
-  const [data, setData] = useState([{
-    totalPoint:'',
-    totalQuestions:'',
-    correctAnswers:''
-  }])
-
-  const [questionList, setQuestionList] = useState([
+  const [questionList, setQuestionList] = useState([            // ?Finish sayfasına tasımak icin obje ile tuttum.
     
     {
       firstNumber:'', 
@@ -66,8 +60,6 @@ function Game() {
 
   }
   
-
-
   function gameStart() {
     generateProblem();
 
@@ -92,7 +84,7 @@ function Game() {
    
   function hübele (index, item){ 
 
-    // LocalStorage da toplam çözülen soru sayısı kaydedildi.
+    // !LocalStorage da toplam çözülen soru sayısı kaydedildi.
     var totalQuestions = localStorage.getItem('totalQuestions');
     if (totalQuestions === null) {
       totalQuestions = 1;
@@ -102,7 +94,7 @@ function Game() {
     console.log(totalQuestions);
     localStorage.setItem("totalQuestions", totalQuestions);
 
-
+    // ?Soru sayısı 10 olunca sayfa degis.
     if(answer === 9){
       routeChange();
     }
@@ -110,7 +102,7 @@ function Game() {
 
     if(item === questionList[answer+1].options){
 
-      // LocalStorage da toplam çözülen doğru soru sayısı kaydedildi.
+      // !LocalStorage da toplam cozulen dogru soru sayısı kaydedildi.
       var correctAnswers = localStorage.getItem('correctAnswers');
       if (correctAnswers === null) {
         correctAnswers = 1;
@@ -122,8 +114,21 @@ function Game() {
 
       setTrueAnswer((prev) => prev + 1);
      
-      let newScore = Math.round(Math.sqrt(questionList[answer+1].options));         //Dogru sorudan alınan puanı hesaplama.
+      // !Dogru sorudan alınan puanı hesaplama ve score a kaydetme.
+      let newScore = Math.round(Math.sqrt(questionList[answer+1].options));         
       setScore( score + newScore);
+
+      console.log("Amaaa", score)
+
+      var totalPoint = localStorage.getItem('totalPoint');
+      if (totalPoint === null) {
+        console.log("Yarraaaaaaa", score)
+        totalPoint = score;
+      } else {
+        totalPoint =+ score;
+      }
+      console.log(totalPoint);
+      localStorage.setItem("totalPoint", totalPoint);
 
 
       document.body.style = 'background-color: green;'
@@ -189,11 +194,12 @@ function Game() {
 
 export default Game;
 
-/*
-{
-  {firstNumber: 6, secondNumber: 10, options: 60, answer: false}
-  {firstNumber: 6, secondNumber: 10, options: 60, answer: false}
-  {firstNumber: 6, secondNumber: 10, options: 60, answer: false}
-}
 
-*/
+/**
+ * ! alşsdkalsdkasdmasd
+ * ?aksdlşkadlkasd
+ * TODO: asdlkadsklaksdl
+ * * lasdklşaksdalksdlaksdl
+ 
+ */
+
