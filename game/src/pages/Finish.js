@@ -12,6 +12,15 @@ function Finish() {
     navigate(`/`);
   };
 
+  let totalQuestions = localStorage.getItem('totalQuestions');
+  let correctAnswers = localStorage.getItem('correctAnswers');
+
+  let cevaplar = JSON.parse(localStorage.getItem('cevaplar'));
+  console.log(cevaplar)
+  
+  
+
+
   return (
     <>
         <div>Finish</div> 
@@ -30,11 +39,15 @@ function Finish() {
             </div>
     
             <div className="total-questions title">
-                <p>Total Questions: 10</p>
+                <p>
+                    {`Total Questions: ${totalQuestions}`}
+                </p>
             </div>
     
             <div className="correct-answers title">
-                <p>Correct Answers: 8</p>
+                <p>
+                    {`Correct Answers: ${correctAnswers}`}
+                </p>
             </div>
 
             <div className='button'>
@@ -45,53 +58,34 @@ function Finish() {
 
         </div>
 
-        <div class="content-question">
-           <div class="header title">
+        <div className="content-question">
+           <div className="header title">
                 <p>All Question</p>
                 <LineIcon />
             </div>
 
-            <div class="point">
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />    
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <FalseIcon />    
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <FalseIcon />  
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <FalseIcon />  
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />  
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />   
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />  
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />   
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />      
-                </div>
-                <div class="title_question">
-                    3 x 4 = 12
-                    <TrueIcon />    
-                </div>
+            <div className="point">
+                {
+                    cevaplar?.map((item, index) => (
+                        index === 0 ? null : 
+                        (
+                            <div key={index} className="title_question">
+
+                                {cevaplar[index].firstNumber} X {cevaplar[index].secondNumber} = {cevaplar[index].options} 
+                                   
+                                {
+                                    cevaplar[index].deneme === "true" 
+                                        ?   <TrueIcon/> 
+                                        :   <FalseIcon /> 
+                                } 
+
+
+                            </div>
+                        )
+                       
+                        
+                    ))
+                }
                 
             </div>
         </div>

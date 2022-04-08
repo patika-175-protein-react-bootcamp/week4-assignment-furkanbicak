@@ -1,9 +1,12 @@
 import './App.css';
+import { TourProvider } from './contexts/tour';
 import Router from './rooter/rooter';
 
 function App() {
   return (
-    <Router />
+    <TourProvider>
+      <Router />
+    </TourProvider>
   );
 }
 

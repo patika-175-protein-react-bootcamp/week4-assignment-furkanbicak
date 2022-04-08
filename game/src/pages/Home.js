@@ -3,14 +3,21 @@ import LineIcon from '../constans/icons/lineIcon';
 import { useNavigate } from 'react-router-dom';
 import '../App.css'
 import '../css/Home.css';
+import { useTour } from '../contexts/tour';
 
 
 function Home() {
 
+  const {tour, counterTour, setTour} = useTour();
+
   let navigate = useNavigate();
   const routeChange = () =>{ 
+    setTour(prev => prev+1)
     navigate(`game`);
   };
+
+  let totalQuestions = localStorage.getItem('totalQuestions');
+  let correctAnswers = localStorage.getItem('correctAnswers');
 
   return (
     <>
@@ -35,12 +42,16 @@ function Home() {
                 <p>Total Point: 129</p>
             </div>
         
-            <div className='total-questions title2'>
-                <p>Total Questions: 40</p>
+            <div className="total-questions title">
+                <p>
+                    {`Total Questions: ${totalQuestions}`}
+                </p>
             </div>
-        
-            <div className='correct-answers title2'>
-                <p>Correct Answers: 32</p>
+    
+            <div className="correct-answers title">
+                <p>
+                    {`Correct Answers: ${correctAnswers}`}
+                </p>
             </div>
 
             <div className='button'>

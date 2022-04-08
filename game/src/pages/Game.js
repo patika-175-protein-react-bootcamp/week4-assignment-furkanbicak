@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardIcon from '../constans/icons/boardIcon';
 import CircleIcon from '../constans/icons/circleIcon';
+import { useTour } from '../contexts/tour';
 import '../css/Game.css';
 
 function Game() {
@@ -23,6 +24,8 @@ function Game() {
     }
   
   ]);
+
+  const {tour, counterTour} = useTour();
 
   let key = [];
   let curent = {};
@@ -73,19 +76,30 @@ function Game() {
     
     key.push(choie1,choie2,choieTrue);
 
-    setQuestionList(prevState => (
-      [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
-    ));
+    // setQuestionList(prevState => (
+    //   [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
+    // ));
 
+    if(questionList.length > 0){
+      setQuestionList(prevState => (
+        [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
+      ));
+
+        localStorage.setItem("cevaplar", JSON.stringify(questionList) )
+    }else{
+        setQuestionList( {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue})
+        localStorage.setItem(JSON.stringify(questionList))
+    }
+    
+  
     console.log("List1",questionList[0].options)
     setOptions(shuffle(key))
-
   }
    
   function hübele (index, item){ 
-
+    
     // !LocalStorage da toplam çözülen soru sayısı kaydedildi.
-    var totalQuestions = localStorage.getItem('totalQuestions');
+    let totalQuestions = localStorage.getItem('totalQuestions');
     if (totalQuestions === null) {
       totalQuestions = 1;
     } else {
@@ -101,9 +115,10 @@ function Game() {
     setAnswer((prev) => prev + 1);
 
     if(item === questionList[answer+1].options){
-
+      questionList[answer+1].deneme = 'true';
+      
       // !LocalStorage da toplam cozulen dogru soru sayısı kaydedildi.
-      var correctAnswers = localStorage.getItem('correctAnswers');
+      let correctAnswers = localStorage.getItem('correctAnswers');
       if (correctAnswers === null) {
         correctAnswers = 1;
       } else {
@@ -134,10 +149,15 @@ function Game() {
       document.body.style = 'background-color: green;'
       gameStart();
     }else{
+      questionList[answer+1].deneme = 'false';
       document.body.style = 'background-color: red;'
       gameStart();
     }
   }
+
+  useEffect(() => {
+
+  },[])
 
   useEffect(() => {
     gameStart()
@@ -157,7 +177,7 @@ function Game() {
     <div className="navbar">
         <div className="navbar_title">
             <div>{`Score: ${score}`}</div>
-            <div>Tour: 2</div>
+            <div>{`Tour: ${tour}`}</div>
             <div>{`Questions: ${truAnswer}/${answer}`}</div>
         </div>
     </div>
