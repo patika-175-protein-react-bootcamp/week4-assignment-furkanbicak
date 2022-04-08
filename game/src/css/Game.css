@@ -47,6 +47,11 @@ body{
     margin-top: 300px;
     margin-right: 150px;
 }
+.container-selection-text{
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 60px
+}
 .container-selection_1{
     margin-bottom: 350px;
 }
@@ -73,14 +78,6 @@ body{
     cursor: pointer;
     overflow: hidden;
     outline: none;
-}
-
-.background-red {
-    background-color: red;
-  }
-  
-.background-green {
-    background-color: greenyellow;
 }
 .background-dark {
     background-color: #2D2D2D;

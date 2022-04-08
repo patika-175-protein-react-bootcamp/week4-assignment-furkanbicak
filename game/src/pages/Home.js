@@ -4,36 +4,40 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css'
 import '../css/Home.css';
 import { useTour } from '../contexts/tour';
+import { useEffect } from 'react';
 
 
 function Home() {
 
-  const {tour, counterTour, setTour} = useTour();
+  const {setTour} = useTour();
 
   let navigate = useNavigate();
   const routeChange = () =>{ 
-    setTour(prev => prev+1)
+    setTour(prev => prev+1)                                   //! Tur sayısını arttırdık.
     navigate(`game`);
   };
 
   let totalQuestions = localStorage.getItem('totalQuestions');
   let correctAnswers = localStorage.getItem('correctAnswers');
 
+  
+  useEffect(() => {
+    if(totalQuestions === null && correctAnswers === null){
+      localStorage.setItem("correctAnswers", 0);
+      localStorage.setItem("totalQuestions", 0);
+    }
+  },[]);
   return (
     <>
-        <div>Home</div>
-        <a href='/game'>Game</a>
-        
-
         <div className='container'>
 
         <div className='container-main'>
 
-            <div className='title'>
+            <div className='header title'>
                 <p>Mathematics Game</p>
             </div>
             
-            <div class="header-line">
+            <div className="header-line">
               <LineIcon />
             </div>
     

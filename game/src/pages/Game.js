@@ -6,6 +6,7 @@ import { useTour } from '../contexts/tour';
 import '../css/Game.css';
 
 function Game() {
+  const [disabled, setDisabled] = useState(false);
   const [options, setOptions] = useState([]);
   const [board, setboard] = useState([]);                       // !Tahdaki rakamları randomNumber() dan alıp basar.
   const [score, setScore] = useState(0);                
@@ -13,7 +14,6 @@ function Game() {
   const [truAnswer, setTrueAnswer] = useState(0);               // !Dogru soru sayısını tutar.
   const [answer, setAnswer] = useState(0);                      // !Kacıncı sorudasın?
 
-  const [currentProblem, setCurrentProblem] = useState({});
 
   const [questionList, setQuestionList] = useState([            // ?Finish sayfasına tasımak icin obje ile tuttum.
     
@@ -23,9 +23,9 @@ function Game() {
       options:''
     }
   
-  ]);
+  ]); 
 
-  const {tour, counterTour} = useTour();
+  const {tour} = useTour();
 
   let key = [];
   let curent = {};
@@ -34,11 +34,10 @@ function Game() {
   let choie1;
   let choie2;
   let choieTrue;
-  
+ 
 
   let navigate = useNavigate();
   const routeChange = () =>{ 
-    document.body.style = 'background-color: dark;'
     navigate(`/finish`);
   };
 
@@ -76,10 +75,6 @@ function Game() {
     
     key.push(choie1,choie2,choieTrue);
 
-    // setQuestionList(prevState => (
-    //   [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
-    // ));
-
     if(questionList.length > 0){
       setQuestionList(prevState => (
         [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
@@ -91,11 +86,17 @@ function Game() {
         localStorage.setItem(JSON.stringify(questionList))
     }
     
-  
-    console.log("List1",questionList[0].options)
     setOptions(shuffle(key))
   }
    
+  function change(){
+    console.log("ahmeooooosaoo")
+    document.querySelector(".svgClass").getSVGDocument().getElementById("svgInternalID").setAttribute("fill", "red");
+
+    document.getElementsByClassName("routerButton").disabled = true;
+    setTimeout(function(){document.getElementsByClassName("routerButton").disabled = false;},5000);
+}
+
   function hübele (index, item){ 
     
     // !LocalStorage da toplam çözülen soru sayısı kaydedildi.
@@ -105,7 +106,7 @@ function Game() {
     } else {
       totalQuestions++;
     }
-    console.log(totalQuestions);
+  
     localStorage.setItem("totalQuestions", totalQuestions);
 
     // ?Soru sayısı 10 olunca sayfa degis.
@@ -114,7 +115,7 @@ function Game() {
     }
     setAnswer((prev) => prev + 1);
 
-    if(item === questionList[answer+1].options){
+    if(item === questionList[answer+1].options) {
       questionList[answer+1].deneme = 'true';
       
       // !LocalStorage da toplam cozulen dogru soru sayısı kaydedildi.
@@ -124,56 +125,43 @@ function Game() {
       } else {
         correctAnswers++;
       }
-      console.log(correctAnswers);
       localStorage.setItem("correctAnswers", correctAnswers);
 
       setTrueAnswer((prev) => prev + 1);
      
       // !Dogru sorudan alınan puanı hesaplama ve score a kaydetme.
       let newScore = Math.round(Math.sqrt(questionList[answer+1].options));         
-      setScore( score + newScore);
+      setScore( (prev) => prev + newScore);
 
-      console.log("Amaaa", score)
 
       var totalPoint = localStorage.getItem('totalPoint');
       if (totalPoint === null) {
-        console.log("Yarraaaaaaa", score)
         totalPoint = score;
       } else {
         totalPoint =+ score;
       }
-      console.log(totalPoint);
       localStorage.setItem("totalPoint", totalPoint);
 
 
-      document.body.style = 'background-color: green;'
-      gameStart();
+      document.body.style = 'background-color: #00BF63;'
+      
+
     }else{
       questionList[answer+1].deneme = 'false';
-      document.body.style = 'background-color: red;'
-      gameStart();
+      document.body.style = 'background-color: #FA0000;'
+      
     }
   }
 
   useEffect(() => {
-
-  },[])
-
-  useEffect(() => {
-    gameStart()
-  },[]);
-
-  useEffect(() => {
     setTimeout(() => {
       document.body.style = 'background-color: dark;'
-    }, 1000);
+      gameStart();
+    }, 3000);
   },[answer]);
 
   return (
-    <>
-        <div>Game</div>
-        <a href='/finish'>Finish</a>
-        
+    <>  
     <div className="navbar">
         <div className="navbar_title">
             <div>{`Score: ${score}`}</div>
@@ -196,12 +184,13 @@ function Game() {
               options?.map((item, index) => (
                 <div className={`container-selection_${index + 1}`}>
                     <button 
-                          onClick     =     {() => hübele(index, item)}
+                          onClick     =     {() => {hübele(index, item);}}
                           className   =     'routerButton' 
-                          key         =     {index}  
+                          key         =     {index} 
+                          id          =     'votebutton'
                       >
                       <p className="container-selection-text title">{`${item}`}</p>
-                      <CircleIcon />
+                      <CircleIcon class="svgClass" />
                     </button>
                   </div> 
                 ))
@@ -213,13 +202,4 @@ function Game() {
 }
 
 export default Game;
-
-
-/**
- * ! alşsdkalsdkasdmasd
- * ?aksdlşkadlkasd
- * TODO: asdlkadsklaksdl
- * * lasdklşaksdalksdlaksdl
- 
- */
 

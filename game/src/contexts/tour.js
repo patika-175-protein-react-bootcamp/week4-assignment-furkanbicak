@@ -5,18 +5,11 @@ const TourContext = React.createContext();
 const TourProvider = ({children}) => {
     const [tour, setTour] = useState(1);
 
-    const counterTour = data => {
-        let eskiTour = tour;
-        eskiTour = eskiTour + data;
-        setTour(eskiTour);
-    }
-
     return (
         <TourContext.Provider
             value={{
                 tour,
                 setTour,
-                counterTour
             }}
         >
             {children}

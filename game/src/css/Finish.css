@@ -11,7 +11,7 @@ body{
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
-
+    height: 100vh;
 }
 .title{
     color: #FFFF;
@@ -26,6 +26,7 @@ body{
 .header{
     display: flex;
     flex-direction: column;
+    color: #FF0000;
 }
 .content-final{
     display: flex;

@@ -4,6 +4,7 @@ import LineIcon from '../constans/icons/lineIcon';
 import TrueIcon from '../constans/icons/trueIcon';
 import FalseIcon from '../constans/icons/falseIcon';
 import '../css/Finish.css';
+import { useState } from 'react';
 
 function Finish() {
 
@@ -14,28 +15,34 @@ function Finish() {
 
   let totalQuestions = localStorage.getItem('totalQuestions');
   let correctAnswers = localStorage.getItem('correctAnswers');
+  let totalPoint = localStorage.getItem('totalPoint');
+  
 
   let cevaplar = JSON.parse(localStorage.getItem('cevaplar'));
   console.log(cevaplar)
   
+  useState(() => {
+    document.body.style = 'background-color: dark;'
+  },[])
   
 
 
   return (
     <>
-        <div>Finish</div> 
-        <a href='/'>Home</a>
-
         <div className="container">
         <div className="content-final"> 
 
             <div className="header title">
                 <p>Final</p>
-                <LineIcon />
+                <LineIcon width="228"/>
             </div>
 
             <div className="total-point title">
-                <p>Total Point: 129</p>
+                <p>
+                    {
+                        `Total Point: ${totalPoint}`
+                    }
+                </p>
             </div>
     
             <div className="total-questions title">
@@ -61,7 +68,7 @@ function Finish() {
         <div className="content-question">
            <div className="header title">
                 <p>All Question</p>
-                <LineIcon />
+                <LineIcon width="350" />
             </div>
 
             <div className="point">
@@ -71,11 +78,13 @@ function Finish() {
                         (
                             <div key={index} className="title_question">
 
-                                {cevaplar[index].firstNumber} X {cevaplar[index].secondNumber} = {cevaplar[index].options} 
-                                   
+                                {cevaplar[index].firstNumber} X {cevaplar[index].secondNumber} = {cevaplar[index].options}
+
+                                &nbsp; &nbsp; 
+
                                 {
                                     cevaplar[index].deneme === "true" 
-                                        ?   <TrueIcon/> 
+                                        ?   <TrueIcon /> 
                                         :   <FalseIcon /> 
                                 } 
 
