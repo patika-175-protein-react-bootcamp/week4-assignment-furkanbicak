@@ -18,8 +18,7 @@ function Finish() {
   let totalPoint = localStorage.getItem('totalPoint');
   
 
-  let cevaplar = JSON.parse(localStorage.getItem('cevaplar'));
-  console.log(cevaplar)
+  let answers = JSON.parse(localStorage.getItem('answers'));
   
   useState(() => {
     document.body.style = 'background-color: dark;'
@@ -73,17 +72,17 @@ function Finish() {
 
             <div className="point">
                 {
-                    cevaplar?.map((item, index) => (
+                    answers?.map((item, index) => (
                         index === 0 ? null : 
                         (
                             <div key={index} className="title_question">
 
-                                {cevaplar[index].firstNumber} X {cevaplar[index].secondNumber} = {cevaplar[index].options}
+                                {answers[index].firstNumber} X {answers[index].secondNumber} = {answers[index].options}
 
                                 &nbsp; &nbsp; 
 
                                 {
-                                    cevaplar[index].deneme === "true" 
+                                    answers[index].deneme === "true" 
                                         ?   <TrueIcon /> 
                                         :   <FalseIcon /> 
                                 } 

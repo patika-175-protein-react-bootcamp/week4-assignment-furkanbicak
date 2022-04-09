@@ -13,18 +13,20 @@ function Home() {
 
   let navigate = useNavigate();
   const routeChange = () =>{ 
-    setTour(prev => prev+1)                                   //! Tur sayısını arttırdık.
+    setTour(prev => prev+1)                                       //! Tur sayısını arttırdık.
     navigate(`game`);
   };
 
   let totalQuestions = localStorage.getItem('totalQuestions');
   let correctAnswers = localStorage.getItem('correctAnswers');
+  let totalPoint = localStorage.getItem('totalPoint');
 
   
   useEffect(() => {
     if(totalQuestions === null && correctAnswers === null){
       localStorage.setItem("correctAnswers", 0);
       localStorage.setItem("totalQuestions", 0);
+      localStorage.setItem("totalPoint", 0);
     }
   },[]);
   return (
@@ -43,18 +45,18 @@ function Home() {
     
             
             <div className='total-point title2'>
-                <p>Total Point: 129</p>
+                <p>{`Total Point: ${totalPoint || 0}`}</p>
             </div>
         
             <div className="total-questions title">
                 <p>
-                    {`Total Questions: ${totalQuestions}`}
+                    {`Total Questions: ${totalQuestions || 0}`}
                 </p>
             </div>
     
             <div className="correct-answers title">
                 <p>
-                    {`Correct Answers: ${correctAnswers}`}
+                    {`Correct Answers: ${correctAnswers || 0}`}
                 </p>
             </div>
 

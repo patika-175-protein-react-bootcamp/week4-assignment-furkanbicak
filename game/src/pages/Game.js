@@ -6,10 +6,9 @@ import { useTour } from '../contexts/tour';
 import '../css/Game.css';
 
 function Game() {
-  const [disabled, setDisabled] = useState(false);
   const [options, setOptions] = useState([]);
   const [board, setboard] = useState([]);                       // !Tahdaki rakamları randomNumber() dan alıp basar.
-  const [score, setScore] = useState(0);                
+  const [score, setScore] = useState(0);                        // !Toplam skor puanını tutar.
 
   const [truAnswer, setTrueAnswer] = useState(0);               // !Dogru soru sayısını tutar.
   const [answer, setAnswer] = useState(0);                      // !Kacıncı sorudasın?
@@ -27,20 +26,12 @@ function Game() {
 
   const {tour} = useTour();
 
-  let key = [];
-  let curent = {};
-  let firstNumber;
-  let secondNumber;
-  let choie1;
-  let choie2;
-  let choieTrue;
- 
-
   let navigate = useNavigate();
   const routeChange = () =>{ 
     navigate(`/finish`);
   };
 
+  //? Dizi karıstırma. (Sıkları karıstırmak icin)
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -49,6 +40,7 @@ function Game() {
       return a;
   }  
 
+  //? Random sayı üretme.
   function randomNumber(max) {
     return (Math.floor(Math.random() * max ) + 1 );
   }
@@ -58,46 +50,48 @@ function Game() {
     let two = randomNumber(11);
 
     setboard({numberOne:one, numberTwo: two});
-    curent = {numberOne:one, numberTwo: two};
 
+    return {numberOne:one, numberTwo: two};
   }
-  
-  function gameStart() {
-    generateProblem();
 
-    firstNumber = curent.numberOne;
-    secondNumber = curent.numberTwo;
+
+  //? Secenekleri Olusturma.
+  function generateChoice(){
+
+    let generateNumber = generateProblem();
+
+    let firstNumber = generateNumber.numberOne;
+    let secondNumber = generateNumber.numberTwo;
 
    
-    choie1 = (firstNumber-1) * secondNumber;
-    choie2 = firstNumber * (secondNumber+1);
-    choieTrue = firstNumber * secondNumber;
-    
-    key.push(choie1,choie2,choieTrue);
+    let choice1 = (firstNumber-1) * secondNumber;
+    let choice2 = firstNumber * (secondNumber+1);
+    let choiceTrue = firstNumber * secondNumber;
 
+    return {firstNumber, secondNumber, choice1, choice2, choiceTrue}
+  
+  }
+  
+  //? Oyunun Baslat ve local deki islemleri baslat.
+  function gameStart() {
+
+    let tmp = generateChoice();
+  
     if(questionList.length > 0){
       setQuestionList(prevState => (
-        [...prevState, {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue}]
+        [...prevState, {firstNumber: tmp.firstNumber, secondNumber: tmp.secondNumber, options: tmp.choiceTrue}]
       ));
 
-        localStorage.setItem("cevaplar", JSON.stringify(questionList) )
+        localStorage.setItem("answers", JSON.stringify(questionList) )
     }else{
-        setQuestionList( {firstNumber: firstNumber, secondNumber: secondNumber, options: choieTrue})
+        setQuestionList( {firstNumber: tmp.firstNumber, secondNumber: tmp.secondNumber, options: tmp.choiceTrue})
         localStorage.setItem(JSON.stringify(questionList))
     }
     
-    setOptions(shuffle(key))
+    setOptions(shuffle([tmp.choice1, tmp.choice2, tmp.choiceTrue]))
   }
    
-  function change(){
-    console.log("ahmeooooosaoo")
-    document.querySelector(".svgClass").getSVGDocument().getElementById("svgInternalID").setAttribute("fill", "red");
-
-    document.getElementsByClassName("routerButton").disabled = true;
-    setTimeout(function(){document.getElementsByClassName("routerButton").disabled = false;},5000);
-}
-
-  function hübele (index, item){ 
+  function nextQuestion (index, item){ 
     
     // !LocalStorage da toplam çözülen soru sayısı kaydedildi.
     let totalQuestions = localStorage.getItem('totalQuestions');
@@ -130,7 +124,8 @@ function Game() {
       setTrueAnswer((prev) => prev + 1);
      
       // !Dogru sorudan alınan puanı hesaplama ve score a kaydetme.
-      let newScore = Math.round(Math.sqrt(questionList[answer+1].options));         
+      let newScore = Math.round(Math.sqrt(questionList[answer+1].options));       
+    
       setScore( (prev) => prev + newScore);
 
 
@@ -147,17 +142,24 @@ function Game() {
       
 
     }else{
-      questionList[answer+1].deneme = 'false';
+      questionList[answer + 1].deneme = 'false';
       document.body.style = 'background-color: #FA0000;'
-      
+     
     }
   }
+  
+  useEffect(() => {
+    gameStart()
+  },[])
 
   useEffect(() => {
-    setTimeout(() => {
-      document.body.style = 'background-color: dark;'
-      gameStart();
-    }, 3000);
+    if(answer > 0 ){
+      setTimeout(() => {
+        document.body.style = 'background-color: dark;'
+        gameStart()
+      }, 3000);
+    }
+    
   },[answer]);
 
   return (
@@ -184,13 +186,13 @@ function Game() {
               options?.map((item, index) => (
                 <div className={`container-selection_${index + 1}`}>
                     <button 
-                          onClick     =     {() => {hübele(index, item);}}
+                          onClick     =     {() => nextQuestion(index, item)}
                           className   =     'routerButton' 
                           key         =     {index} 
                           id          =     'votebutton'
                       >
                       <p className="container-selection-text title">{`${item}`}</p>
-                      <CircleIcon class="svgClass" />
+                      <CircleIcon />
                     </button>
                   </div> 
                 ))
