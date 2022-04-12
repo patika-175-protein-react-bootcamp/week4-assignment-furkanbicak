@@ -1,0 +1,49 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #2D2D2D; 
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.container-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 150px;
+}
+.title{
+    font-family: 'Handlee', cursive;
+    font-size: 82px;
+    color: red;
+}
+.title_start{
+    color:#FFFF;
+}
+.title2{ 
+    font-size: 64px;
+    color: #FFFF;
+    font-family: 'Handlee', cursive;
+    margin-top: 45px;
+}
+.button{
+    margin: 50px 0px 150px 0px;
+   
+}
+.routerButton{
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+
